@@ -8,8 +8,7 @@ import NewCard from "../NewCard/NewCard"
 function Main ({
   cards = [], 
   user, 
-  handleEditUserPopup, 
-  handleCreateCard, 
+  handleEditUserPopup,  
   handleDeleteCard,
   handleOpenAddCard,
   handleCloseAddCard,

@@ -7,6 +7,7 @@
   align-items: center;
   position: fixed;
   top: 0;
+  left: 0;
 }
 
 .addcard_open {
@@ -17,7 +18,7 @@
 .addcard__overlay {
   width: 430px;
   height: 330px;
-  margin: 195px auto 0;
+  margin: auto;
   border-radius: 10px 10px 10px 10px;
   background-color: white;
   color: black;

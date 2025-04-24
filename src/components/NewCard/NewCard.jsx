@@ -9,7 +9,7 @@ function NewCard ({handleCreateCard, isOpen, onClose}){
     function onSubmitClick(event) {
         event.preventDefault();
         
-        const newCard = { title: data.get('title'), link: data.get('url')}
+        const newCard = { title, link: url}
             handleCreateCard(newCard);
             setTitle('')
             setUrl('')
@@ -31,7 +31,7 @@ return(
             id="card-form"
             className="addcard__form"
             name="addcard-form"
-            noValidate
+            required
             onSubmit={onSubmitClick}
           >
             <div className="addcard__target">
@@ -65,7 +65,7 @@ return(
             <button
               className="addcard__save-button error__button"
               type="submit"
-              disabled
+              disabled={!title || !url}
             >
               Criar
             </button>

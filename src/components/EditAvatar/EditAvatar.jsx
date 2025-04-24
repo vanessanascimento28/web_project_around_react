@@ -18,7 +18,7 @@ return (
       id="popupprofilepicture-form"
       className="popupprofilepicture__form"
       name="popupprofilepicture-form"
-      noValidate
+      required
     >
       <div className="popupprofilepicture__target">
         <input

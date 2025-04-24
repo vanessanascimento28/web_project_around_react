@@ -29,7 +29,7 @@ handleEditUserPopup()
             />
           </button>
           <h3 className="popup__title">Editar Perfil</h3>
-          <form onSubmit={updateUserInfo} id="user-form" className="popup__form" name="popup-form" noValidate>
+          <form onSubmit={updateUserInfo} id="user-form" className="popup__form" name="popup-form" required>
             <div className="popup__target">
               <input
                 id="name"

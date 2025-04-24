@@ -1,5 +1,8 @@
-  {/* ------------------------------------- IMAGES (POPUP) ----------------------------------------- */}
+import closeIcon from "../../images/CloseIcon.svg"
 
+function ImagePopup () {
+
+ return (
       <div className="imagepopup">
         <div className="imagepopup__overlay">
           <button className="imagepopup__close-button">
@@ -13,3 +16,6 @@
           <p className="imagepopup__title">Local Aqui</p>
         </div>
       </div>
+)}
+
+export default ImagePopup;
