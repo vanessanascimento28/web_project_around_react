@@ -3,10 +3,13 @@ import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 import Popup from "./components/Main/components/Popup/Popup";
+import EditAvatar from "./components/EditAvatar/EditAvatar";
 
 function App() {
   const [user, setUser] = useState({ name: "Vanessa", about: "Web Developer" });
   const [isAddCardOpen, setIsAddCardOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [isEditAvatarOpen, setIsEditAvatarOpen] = useState(false);
 
   const [cards, setCards] = useState([
     {
@@ -41,11 +44,20 @@ function App() {
   }
 
   function handleEditUserPopup() {
-    
+    setIsEditProfileOpen((prev) => !prev);
   }
 
   function handleUpdateUserInfo(updatedUser) {
     setUser(updatedUser);
+  }
+
+  function handleOpenEditAvatar() {
+    console.log("Abriu o popup de avatar");
+    setIsEditAvatarOpen(true);
+  }
+  
+  function handleCloseEditAvatar() {
+    setIsEditAvatarOpen(false);
   }
 
   return (
@@ -60,13 +72,15 @@ function App() {
         handleOpenAddCard={handleOpenAddCard}
         handleCloseAddCard={handleCloseAddCard}
         isAddCardOpen={isAddCardOpen}
+        handleOpenEditAvatar={handleOpenEditAvatar}
       />
 
       <Popup
-        editProfile={""}
+        editProfile={isEditProfileOpen ? "popup_opened" : ""}
         handleEditUserPopup={handleEditUserPopup}
         handleUpdateUserInfo={handleUpdateUserInfo}
       />
+      <EditAvatar isOpen={isEditAvatarOpen} onClose={handleCloseEditAvatar} />
       <Footer />
     </div>
   );

@@ -1,11 +1,11 @@
 import closeIcon from "../../images/CloseIcon.svg"
 
-function EditAvatar (){
+function EditAvatar ({ isOpen, onClose }) {
 
 return (
-<div className="popupprofilepicture">
+<div className={`popupprofilepicture ${isOpen ? "popupprofilepicture_opened" : ""}`}>
 <div className="popupprofilepicture__overlay">
-  <button className="popupprofilepicture__close-button">
+  <button className="popupprofilepicture__close-button" onClick={onClose}>
     <img
       className="popupprofilepicture__icon"
       src={closeIcon}

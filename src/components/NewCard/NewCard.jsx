@@ -31,7 +31,6 @@ return(
             id="card-form"
             className="addcard__form"
             name="addcard-form"
-            required
             onSubmit={onSubmitClick}
           >
             <div className="addcard__target">
