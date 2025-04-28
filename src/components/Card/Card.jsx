@@ -1,8 +1,8 @@
-import trashIcon from "../../images/Trash.svg"
-import infoIcon from "../../images/Vectorheart.svg"
+import trashIcon from "../../images/Trash.svg";
+import infoIcon from "../../images/Vectorheart.svg";
 
-function Card ({card, handleDeleteCard}) {
-  function deleteCard () {
+function Card({ card, handleDeleteCard }) {
+  function deleteCard() {
     handleDeleteCard(card);
   }
 
@@ -24,7 +24,7 @@ function Card ({card, handleDeleteCard}) {
         />
       </div>
     </li>
-    );
+  );
 }
 
 export default Card;

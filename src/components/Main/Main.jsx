@@ -13,7 +13,7 @@ function Main({
   handleOpenAddCard,
   handleCloseAddCard,
   isAddCardOpen,
-  handleOpenEditAvatar
+  handleOpenEditAvatar,
 }) {
   const hasCards = Boolean(cards.length);
 

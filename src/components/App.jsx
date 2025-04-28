@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Header from "./components/Header/Header";
-import Main from "./components/Main/Main";
-import Footer from "./components/Footer/Footer";
-import Popup from "./components/Main/components/Popup/Popup";
-import EditAvatar from "./components/EditAvatar/EditAvatar";
+import Header from "./Header/Header";
+import Main from "./Main/Main";
+import Footer from "./Footer/Footer";
+import Popup from "./Popup/Popup";
+import EditAvatar from "./EditAvatar/EditAvatar";
 
 function App() {
   const [user, setUser] = useState({ name: "Vanessa", about: "Web Developer" });
@@ -55,7 +55,7 @@ function App() {
     console.log("Abriu o popup de avatar");
     setIsEditAvatarOpen(true);
   }
-  
+
   function handleCloseEditAvatar() {
     setIsEditAvatarOpen(false);
   }
