@@ -4,6 +4,7 @@ import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 import Popup from "./Popup/Popup";
 import EditAvatar from "./EditAvatar/EditAvatar";
+import EditProfile from "./EditProfile/EditProfile";
 
 function App() {
   const [user, setUser] = useState({ name: "Vanessa", about: "Web Developer" });
@@ -75,10 +76,10 @@ function App() {
         handleOpenEditAvatar={handleOpenEditAvatar}
       />
 
-      <Popup
-        editProfile={isEditProfileOpen ? "popup_opened" : ""}
-        handleEditUserPopup={handleEditUserPopup}
-        handleUpdateUserInfo={handleUpdateUserInfo}
+      <EditProfile
+        isOpen={isEditProfileOpen}
+        onClose={handleEditUserPopup}
+        onUpdateUser={handleUpdateUserInfo}
       />
       <EditAvatar isOpen={isEditAvatarOpen} onClose={handleCloseEditAvatar} />
       <Footer />
