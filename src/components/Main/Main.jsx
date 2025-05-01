@@ -1,21 +1,28 @@
+import { useState, useEffect } from "react";
 import profileImage from "../../images/profileimage.jpg";
 import editIcon from "../../images/IconeCanetaEditor.svg";
 import buttonIcon from "../../images/IconeCanetaVector.svg";
 import addButton from "../../images/IconeAddButton.svg";
 import Card from "../Card/Card";
 import NewCard from "../NewCard/NewCard";
+import api from "../../utils/api";
+import { useContext } from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Main({
-  cards = [],
-  user,
   handleEditUserPopup,
   handleDeleteCard,
   handleOpenAddCard,
   handleCloseAddCard,
   isAddCardOpen,
   handleOpenEditAvatar,
+  handleCardLike,
+  cards,
+  onAddPlaceSubmit,
 }) {
-  const hasCards = Boolean(cards.length);
+ 
+  const { currentUser } = useContext(CurrentUserContext);
+  const hasCards = cards && cards.length > 0;
 
   return (
     <main className="content">
@@ -23,7 +30,7 @@ function Main({
         <div className="content__profile-wrapper">
           <img
             className="content__profile-image"
-            src={profileImage}
+            src={currentUser.avatar || profileImage}
             alt="Senhor de cabelos brancos sorrindo, ele veste um gorro vermelho e camiseta azul, ao fundo é possível ver o mar levemente desfocado"
           />
           <button className="content__editbtn" onClick={handleOpenEditAvatar}>
@@ -36,7 +43,7 @@ function Main({
         </div>
         <div className="content__text">
           <div className="content__text-square">
-            <h1 className="content__text-name">{user.name}</h1>
+            <h1 className="content__text-name">{currentUser.name}</h1>
             <button className="content__button" onClick={handleEditUserPopup}>
               <img
                 className="content__button-icon"
@@ -45,7 +52,7 @@ function Main({
               />
             </button>
           </div>
-          <p className="content__text-description">{user.about}</p>
+          <p className="content__text-description">{currentUser.about}</p>
         </div>
         <button className="content__addbutton" onClick={handleOpenAddCard}>
           <img
@@ -54,16 +61,25 @@ function Main({
             alt="sinal de mais"
           />
         </button>
-        <NewCard isOpen={isAddCardOpen} onClose={handleCloseAddCard} />
+        <NewCard 
+        isOpen={isAddCardOpen}
+        onClose={handleCloseAddCard}
+        onAddPlaceSubmit={onAddPlaceSubmit}
+         />
       </div>
 
-      {hasCards ? (
+      {hasCards && (
         <ul className="cards-list">
-          {cards.map((card, index) => (
-            <Card key={index} card={card} handleDeleteCard={handleDeleteCard} />
+          {cards.map((card) => (
+            <Card
+              key={card._id}
+              card={card}
+              handleDeleteCard={handleDeleteCard}
+              handleCardLike={handleCardLike}
+            />
           ))}
         </ul>
-      ) : null}
+      )}
     </main>
   );
 }

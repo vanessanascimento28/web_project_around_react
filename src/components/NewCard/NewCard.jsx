@@ -1,18 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import closeIcon from "../../images/CloseIcon.svg";
 
-function NewCard({ handleCreateCard, isOpen, onClose }) {
+function NewCard({ onAddPlaceSubmit, isOpen, onClose }) {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
+
+  // Limpa campos ao abrir o modal
+  useEffect(() => {
+    if (isOpen) {
+      setTitle("");
+      setUrl("");
+    }
+  }, [isOpen]);
 
   function onSubmitClick(event) {
     event.preventDefault();
 
-    const newCard = { title, link: url };
-    handleCreateCard(newCard);
-    setTitle("");
-    setUrl("");
-    onClose();
+    const newCard = {
+      name: title, // A API espera "name", não "title"
+      link: url,
+    };
+
+    onAddPlaceSubmit(newCard);
+    // ❗ NÃO fechar o modal aqui — ele será fechado no App após sucesso
   }
 
   return (

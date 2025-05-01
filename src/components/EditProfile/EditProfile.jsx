@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import Popup from "../Popup/Popup";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+  const { currentUser } = useContext(CurrentUserContext);
+
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
+
+  useEffect(() => {
+    if (currentUser) {
+      setName(currentUser.name || "");
+      setAbout(currentUser.about || "");
+    }
+  }, [currentUser]);
 
   function handleSubmit(event) {
     event.preventDefault();
     onUpdateUser({ name, about });
-    setName("");
-    setAbout("");
     onClose();
   }
 

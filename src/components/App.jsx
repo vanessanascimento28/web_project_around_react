@@ -1,35 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
-import Popup from "./Popup/Popup";
 import EditAvatar from "./EditAvatar/EditAvatar";
 import EditProfile from "./EditProfile/EditProfile";
+import ConfirmDeletePopup from "./ConfirmationDelete/ConfirmationDelete";
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import api from "../utils/api";
 
 function App() {
-  const [user, setUser] = useState({ name: "Vanessa", about: "Web Developer" });
+  const [cards, setCards] = useState([]);
+  const [currentUser, setCurrentUser] = useState({
+    name: "Vanessa",
+    about: "Web Developer",
+  });
   const [isAddCardOpen, setIsAddCardOpen] = useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isEditAvatarOpen, setIsEditAvatarOpen] = useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+  const [cardToDelete, setCardToDelete] = useState(null);
 
-  const [cards, setCards] = useState([
-    {
-      isLiked: false,
-      _id: "5d1f0611d321eb4bdcd707dd",
-      name: "Yosemite Valley",
-      link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-      owner: "5d1f0611d321eb4bdcd707dd",
-      createdAt: "2019-07-05T08:10:57.741Z",
-    },
-    {
-      isLiked: false,
-      _id: "5d1f064ed321eb4bdcd707de",
-      name: "Lake Louise",
-      link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-      owner: "5d1f0611d321eb4bdcd707dd",
-      createdAt: "2019-07-05T08:11:58.324Z",
-    },
-  ]);
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar cartões:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((data) => setCurrentUser(data))
+      .catch((err) => console.error("Erro ao buscar usuário:", err));
+  }, []);
 
   function handleOpenAddCard() {
     setIsAddCardOpen(true);
@@ -39,21 +46,34 @@ function App() {
     setIsAddCardOpen(false);
   }
 
-  function handleDeleteCard(card) {
-    const filteredCards = cards.filter((c) => c._id !== card._id);
-    setCards(filteredCards);
-  }
-
   function handleEditUserPopup() {
     setIsEditProfileOpen((prev) => !prev);
   }
 
   function handleUpdateUserInfo(updatedUser) {
-    setUser(updatedUser);
+    api
+      .updateUser({
+        name: updatedUser.name,
+        about: updatedUser.about,
+      })
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
+        setIsEditProfileOpen(false);
+      })
+      .catch((err) => console.error("Erro ao atualizar usuário:", err));
+  }
+
+  function handleAddPlaceSubmit(cardData) {
+    api
+      .createCard(cardData)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        setIsAddCardOpen(false);
+      })
+      .catch((err) => console.error("Erro ao adicionar novo cartão:", err));
   }
 
   function handleOpenEditAvatar() {
-    console.log("Abriu o popup de avatar");
     setIsEditAvatarOpen(true);
   }
 
@@ -61,29 +81,96 @@ function App() {
     setIsEditAvatarOpen(false);
   }
 
+  function handleUpdateAvatar(avatarUrl) {
+    return api
+      .setUserAvatar(avatarUrl)
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
+        setIsEditAvatarOpen(false);
+      })
+      .catch((err) => console.error("Erro ao atualizar avatar:", err));
+  }
+
+  function handleCardLike(card) {
+    const isLiked =
+      Array.isArray(card.likes) &&
+      card.likes.some((u) => u._id === currentUser._id);
+
+    const request = isLiked
+      ? api.removeLike(card._id)
+      : api.updateLike(card._id);
+
+    request
+      .then((updatedCard) => {
+        setCards((prev) =>
+          prev.map((c) => (c._id === card._id ? updatedCard : c))
+        );
+      })
+      .catch((err) => console.error("Erro ao atualizar like:", err));
+  }
+
+  function handleTrashClick(card) {
+    setCardToDelete(card);
+    setIsConfirmPopupOpen(true);
+  }
+
+  function handleConfirmDelete() {
+    api
+      .deleteCard(cardToDelete._id)
+      .then(() => {
+        setCards((cards) =>
+          cards.filter((c) => c._id !== cardToDelete._id)
+        );
+        setIsConfirmPopupOpen(false);
+        setCardToDelete(null);
+      })
+      .catch((err) => console.error("Erro ao deletar card:", err));
+  }
+
+  function handleCloseConfirmPopup() {
+    setIsConfirmPopupOpen(false);
+    setCardToDelete(null);
+  }
+
   return (
-    <div className="page__content">
-      <Header />
+    <CurrentUserContext.Provider
+      value={{ currentUser, handleUpdateUserInfo, handleUpdateAvatar }}
+    >
+      <div className="page__content">
+        <Header />
 
-      <Main
-        cards={cards}
-        user={user}
-        handleEditUserPopup={handleEditUserPopup}
-        handleDeleteCard={handleDeleteCard}
-        handleOpenAddCard={handleOpenAddCard}
-        handleCloseAddCard={handleCloseAddCard}
-        isAddCardOpen={isAddCardOpen}
-        handleOpenEditAvatar={handleOpenEditAvatar}
-      />
+        <Main
+          handleEditUserPopup={handleEditUserPopup}
+          handleOpenAddCard={handleOpenAddCard}
+          handleCloseAddCard={handleCloseAddCard}
+          isAddCardOpen={isAddCardOpen}
+          handleOpenEditAvatar={handleOpenEditAvatar}
+          handleCardLike={handleCardLike}
+          handleDeleteCard={handleTrashClick}
+          cards={cards}
+          onAddPlaceSubmit={handleAddPlaceSubmit}
+        />
 
-      <EditProfile
-        isOpen={isEditProfileOpen}
-        onClose={handleEditUserPopup}
-        onUpdateUser={handleUpdateUserInfo}
-      />
-      <EditAvatar isOpen={isEditAvatarOpen} onClose={handleCloseEditAvatar} />
-      <Footer />
-    </div>
+        <EditProfile
+          isOpen={isEditProfileOpen}
+          onClose={handleEditUserPopup}
+          onUpdateUser={handleUpdateUserInfo}
+        />
+
+        <EditAvatar
+          isOpen={isEditAvatarOpen}
+          onClose={handleCloseEditAvatar}
+        />
+
+        <ConfirmDeletePopup
+          isOpen={isConfirmPopupOpen}
+          onClose={handleCloseConfirmPopup}
+          onConfirm={handleConfirmDelete}
+        />
+
+        <Footer />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
