@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import profileImage from "../../images/profileimage.jpg";
 import editIcon from "../../images/IconeCanetaEditor.svg";
 import buttonIcon from "../../images/IconeCanetaVector.svg";
 import addButton from "../../images/IconeAddButton.svg";
 import Card from "../Card/Card";
 import NewCard from "../NewCard/NewCard";
-import api from "../../utils/api";
-import { useContext } from "react";
+import ImagePopup from "../ImagePopup/ImagePopup";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Main({
@@ -20,9 +19,18 @@ function Main({
   cards,
   onAddPlaceSubmit,
 }) {
- 
   const { currentUser } = useContext(CurrentUserContext);
   const hasCards = cards && cards.length > 0;
+
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
+  function handleCloseImagePopup() {
+    setSelectedCard(null);
+  }
 
   return (
     <main className="content">
@@ -61,11 +69,11 @@ function Main({
             alt="sinal de mais"
           />
         </button>
-        <NewCard 
-        isOpen={isAddCardOpen}
-        onClose={handleCloseAddCard}
-        onAddPlaceSubmit={onAddPlaceSubmit}
-         />
+        <NewCard
+          isOpen={isAddCardOpen}
+          onClose={handleCloseAddCard}
+          onAddPlaceSubmit={onAddPlaceSubmit}
+        />
       </div>
 
       {hasCards && (
@@ -76,10 +84,13 @@ function Main({
               card={card}
               handleDeleteCard={handleDeleteCard}
               handleCardLike={handleCardLike}
+              onCardClick={handleCardClick}
             />
           ))}
         </ul>
       )}
+
+      <ImagePopup card={selectedCard} onClose={handleCloseImagePopup} />
     </main>
   );
 }

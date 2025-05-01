@@ -149,6 +149,7 @@ function App() {
           handleDeleteCard={handleTrashClick}
           cards={cards}
           onAddPlaceSubmit={handleAddPlaceSubmit}
+          
         />
 
         <EditProfile
