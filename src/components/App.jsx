@@ -107,10 +107,6 @@ function App() {
     setCards((prev)=>
     prev.map((c) => (c._id === card._id ? updatedCard : c))
     );
-
-        setCards((prev) =>
-          prev.map((c) => (c._id === card._id ? updatedCard : c))
-        );
       })
       .catch((err) => console.error("Erro ao atualizar like:", err));
   }

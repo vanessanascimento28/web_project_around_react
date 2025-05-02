@@ -1,7 +1,24 @@
+import { useEffect } from "react";
 import closeIcon from "../../images/CloseIcon.svg";
 
 function ImagePopup({ card, onClose }) {
   const isOpen = Boolean(card);
+
+  useEffect(() => {
+    function handleEscClose(e) {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscClose);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [isOpen, onClose]);
 
   return (
     <div
