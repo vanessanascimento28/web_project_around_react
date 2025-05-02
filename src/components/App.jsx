@@ -3,7 +3,7 @@ import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 import EditAvatar from "./EditAvatar/EditAvatar";
-import EditProfile from "./EditProfile/EditProfile";
+import EditProfile from "../components/Popup/EditProfile/EditProfile";
 import ConfirmDeletePopup from "./RemoveCard/RemoveCard";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/api";
