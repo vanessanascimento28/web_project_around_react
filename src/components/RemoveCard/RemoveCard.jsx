@@ -1,4 +1,4 @@
-import Popup from "../Popup/Popup";
+import Popup from "../Main/components/Popup/Popup";
 
 function ConfirmDeletePopup({ isOpen, onClose, onConfirm }) {
   function handleSubmit(event) {

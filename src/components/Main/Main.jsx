@@ -3,9 +3,9 @@ import profileImage from "../../images/profileimage.jpg";
 import editIcon from "../../images/IconeCanetaEditor.svg";
 import buttonIcon from "../../images/IconeCanetaVector.svg";
 import addButton from "../../images/IconeAddButton.svg";
-import Card from "../Card/Card";
-import NewCard from "../Popup/NewCard/NewCard";
-import ImagePopup from "../Popup/ImagePopup/ImagePopup";
+import Card from "./components/Card/Card";
+import NewCard from "./components/Popup/NewCard/NewCard";
+import ImagePopup from "./components/Popup/ImagePopup/ImagePopup";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Main({

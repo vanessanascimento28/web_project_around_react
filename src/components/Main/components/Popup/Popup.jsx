@@ -1,4 +1,4 @@
-import closeIcon from "../../images/CloseIcon.svg";
+import closeIcon from "../../../../images/CloseIcon.svg";
 
 function Popup({ title, isOpen, onClose, children, customOverlayClass = "" }) {
   return (

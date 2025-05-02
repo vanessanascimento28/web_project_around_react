@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import trashIcon from "../../images/Trash.svg";
-import infoIcon from "../../images/Vectorheart.svg";
-import blackHeartIcon from "../../images/BlackHeart.svg";
-import CurrentUserContext from "../../contexts/CurrentUserContext";
+import trashIcon from "../../../../images/Trash.svg";
+import infoIcon from "../../../../images/Vectorheart.svg";
+import blackHeartIcon from "../../../../images/BlackHeart.svg";
+import CurrentUserContext from "../../../../contexts/CurrentUserContext";
 
 function Card({ card, handleDeleteCard, handleCardLike, onCardClick }) {
   const currentUser = useContext(CurrentUserContext);
