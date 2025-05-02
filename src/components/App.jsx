@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import Header from "./components/Header/Header";
-import Main from "./components/Main/Main";
-import Footer from "./components/Footer/Footer";
-import EditAvatar from "./components/Main/components/Popup/EditAvatar/EditAvatar";
-import EditProfile from "./components/Main/components/Popup/EditProfile/EditProfile";
-import ConfirmDeletePopup from "./components/RemoveCard/RemoveCard";
-import CurrentUserContext from "./contexts/CurrentUserContext";
-import api from "./utils/api";
+import Header from "./Header/Header";
+import Main from "./Main/Main";
+import Footer from "./Footer/Footer";
+import EditAvatar from "./Main/components/Popup/EditAvatar/EditAvatar";
+import EditProfile from "./Main/components/Popup/EditProfile/EditProfile";
+import ConfirmDeletePopup from "./Main/components/Popup/RemoveCard/RemoveCard";
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import api from "../utils/api";
 
 function App() {
   const [cards, setCards] = useState([]);
