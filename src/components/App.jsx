@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
-import EditAvatar from "./EditAvatar/EditAvatar";
+import EditAvatar from "../components/Popup/EditAvatar/EditAvatar";
 import EditProfile from "../components/Popup/EditProfile/EditProfile";
 import ConfirmDeletePopup from "./RemoveCard/RemoveCard";
 import CurrentUserContext from "../contexts/CurrentUserContext";

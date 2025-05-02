@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import closeIcon from "../../images/CloseIcon.svg";
+import closeIcon from "../../../images/CloseIcon.svg";
 
 function ImagePopup({ card, onClose }) {
   const isOpen = Boolean(card);
