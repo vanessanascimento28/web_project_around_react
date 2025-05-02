@@ -1,4 +1,4 @@
-import { useRef, useContext, useEffect } from "react";
+import { useRef, useContext, useEffect, useState } from "react";
 import closeIcon from "../../images/CloseIcon.svg";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
@@ -6,11 +6,28 @@ function EditAvatar({ isOpen, onClose }) {
   const { handleUpdateAvatar } = useContext(CurrentUserContext);
   const inputRef = useRef();
 
+  const [isValid, setIsValid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      inputRef.current.value = ""; // limpa o campo ao abrir
+      inputRef.current.value = "";
+      setIsValid(false);
+      setErrorMessage(""); 
     }
   }, [isOpen]);
+
+  function handleChange() {
+    const input = inputRef.current;
+
+    if (input.validity.valid) {
+      setIsValid(true);
+      setErrorMessage("");
+    } else {
+      setIsValid(false);
+      setErrorMessage("Insira um link de imagem válido.");
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -19,7 +36,7 @@ function EditAvatar({ isOpen, onClose }) {
 
     handleUpdateAvatar(avatarLink)
       .then(() => {
-        onClose(); // fecha o popup após sucesso
+        onClose(); 
       })
       .catch((err) => console.error("Erro ao atualizar avatar:", err));
   }
@@ -54,12 +71,17 @@ function EditAvatar({ isOpen, onClose }) {
                 className="popupprofilepicture__input popupprofilepicture__input-error"
                 type="url"
                 placeholder="Insira um link de imagem aqui"
+                onChange={handleChange}
               />
-              <span className="error__message" id="local-error"></span>
+              <span className="error__message" id="local-error">
+              {errorMessage}
+              </span>
+              
             </div>
             <button
-              className="popupprofilepicture__save-button error__button"
+              className={`popupprofilepicture__save-button ${!isValid ? "error__button" : ""}`}
               type="submit"
+              disabled={!isValid}
             >
               Salvar
             </button>

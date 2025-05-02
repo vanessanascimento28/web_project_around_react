@@ -5,24 +5,40 @@ function NewCard({ onAddPlaceSubmit, isOpen, onClose }) {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
 
-  // Limpa campos ao abrir o modal
+  const [titleError, setTitleError] = useState("");
+  const [urlError, setUrlError] = useState("");
+
+  const [isValid, setIsValid] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       setTitle("");
       setUrl("");
+      setTitleError("");
+      setUrlError("");
+      setIsValid(false);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const titleValid = title.length >= 2 && title.length <= 30;
+    const urlValid = /^https?:\/\/\S+\.\S+/.test(url);
+
+    setTitleError(titleValid || title === "" ? "" : "O título deve ter entre 2 e 30 caracteres.");
+    setUrlError(urlValid || url === "" ? "" : "Insira um link válido (http:// ou https://)");
+
+    setIsValid(titleValid && urlValid);
+  }, [title, url]);
 
   function onSubmitClick(event) {
     event.preventDefault();
 
     const newCard = {
-      name: title, // A API espera "name", não "title"
+      name: title,
       link: url,
     };
 
     onAddPlaceSubmit(newCard);
-    // ❗ NÃO fechar o modal aqui — ele será fechado no App após sucesso
   }
 
   return (
@@ -55,7 +71,7 @@ function NewCard({ onAddPlaceSubmit, isOpen, onClose }) {
               type="text"
               placeholder="Título"
             />
-            <span className="error__message" id="local-error"></span>
+            <span className="error__message" id="local-error">{titleError}</span>
           </div>
           <div className="addcard__target">
             <input
@@ -68,12 +84,12 @@ function NewCard({ onAddPlaceSubmit, isOpen, onClose }) {
               type="url"
               placeholder="Link de imagem"
             />
-            <span className="error__message" id="link-error"></span>
+            <span className="error__message" id="link-error">{urlError}</span>
           </div>
           <button
-            className="addcard__save-button error__button"
+            className={`addcard__save-button ${!isValid ? "error__button" : ""}`}
             type="submit"
-            disabled={!title || !url}
+            disabled={!isValid}
           >
             Criar
           </button>
