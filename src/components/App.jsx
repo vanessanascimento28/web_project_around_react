@@ -4,7 +4,7 @@ import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 import EditAvatar from "./EditAvatar/EditAvatar";
 import EditProfile from "./EditProfile/EditProfile";
-import ConfirmDeletePopup from "./ConfirmationDelete/ConfirmationDelete";
+import ConfirmDeletePopup from "./RemoveCard/RemoveCard";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/api";
 
@@ -92,16 +92,22 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked =
-      Array.isArray(card.likes) &&
-      card.likes.some((u) => u._id === currentUser._id);
-
-    const request = isLiked
+    const request = card.isLiked
       ? api.removeLike(card._id)
       : api.updateLike(card._id);
 
     request
       .then((updatedCard) => {
+        console.log("Resposta da API ao curtir/descurtir:", updatedCard);
+
+        if (!updatedCard) {
+          throw new Error("Resposta inválida da API ao atualizar curtida.");
+        }
+
+    setCards((prev)=>
+    prev.map((c) => (c._id === card._id ? updatedCard : c))
+    );
+
         setCards((prev) =>
           prev.map((c) => (c._id === card._id ? updatedCard : c))
         );
@@ -118,9 +124,7 @@ function App() {
     api
       .deleteCard(cardToDelete._id)
       .then(() => {
-        setCards((cards) =>
-          cards.filter((c) => c._id !== cardToDelete._id)
-        );
+        setCards((cards) => cards.filter((c) => c._id !== cardToDelete._id));
         setIsConfirmPopupOpen(false);
         setCardToDelete(null);
       })
@@ -149,7 +153,6 @@ function App() {
           handleDeleteCard={handleTrashClick}
           cards={cards}
           onAddPlaceSubmit={handleAddPlaceSubmit}
-          
         />
 
         <EditProfile
@@ -158,10 +161,7 @@ function App() {
           onUpdateUser={handleUpdateUserInfo}
         />
 
-        <EditAvatar
-          isOpen={isEditAvatarOpen}
-          onClose={handleCloseEditAvatar}
-        />
+        <EditAvatar isOpen={isEditAvatarOpen} onClose={handleCloseEditAvatar} />
 
         <ConfirmDeletePopup
           isOpen={isConfirmPopupOpen}

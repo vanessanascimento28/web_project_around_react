@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import trashIcon from "../../images/Trash.svg";
 import infoIcon from "../../images/Vectorheart.svg";
+import blackHeartIcon from "../../images/BlackHeart.svg";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Card({ card, handleDeleteCard, handleCardLike, onCardClick }) {
@@ -8,9 +9,7 @@ function Card({ card, handleDeleteCard, handleCardLike, onCardClick }) {
 
   const isOwn = card.owner?._id === currentUser._id;
 
-  const isLiked =
-    Array.isArray(card.likes) &&
-    card.likes.some((user) => user._id === currentUser._id);
+  const isLiked = card.isLiked;
 
   const cardLikeButtonClassName = `card__like-button ${
     isLiked ? "card__like-button_is-active" : ""
@@ -54,7 +53,7 @@ function Card({ card, handleDeleteCard, handleCardLike, onCardClick }) {
         >
           <img
             className="card__info-icon"
-            src={infoIcon}
+            src={isLiked ? blackHeartIcon : infoIcon}
             alt="ícone de curtir"
           />
         </button>

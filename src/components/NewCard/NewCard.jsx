@@ -24,8 +24,16 @@ function NewCard({ onAddPlaceSubmit, isOpen, onClose }) {
     const titleValid = title.length >= 2 && title.length <= 30;
     const urlValid = /^https?:\/\/\S+\.\S+/.test(url);
 
-    setTitleError(titleValid || title === "" ? "" : "O título deve ter entre 2 e 30 caracteres.");
-    setUrlError(urlValid || url === "" ? "" : "Insira um link válido (http:// ou https://)");
+    setTitleError(
+      titleValid || title === ""
+        ? ""
+        : "O título deve ter entre 2 e 30 caracteres."
+    );
+    setUrlError(
+      urlValid || url === ""
+        ? ""
+        : "Insira um link válido (http:// ou https://)"
+    );
 
     setIsValid(titleValid && urlValid);
   }, [title, url]);
@@ -71,7 +79,9 @@ function NewCard({ onAddPlaceSubmit, isOpen, onClose }) {
               type="text"
               placeholder="Título"
             />
-            <span className="error__message" id="local-error">{titleError}</span>
+            <span className="error__message" id="local-error">
+              {titleError}
+            </span>
           </div>
           <div className="addcard__target">
             <input
@@ -84,10 +94,14 @@ function NewCard({ onAddPlaceSubmit, isOpen, onClose }) {
               type="url"
               placeholder="Link de imagem"
             />
-            <span className="error__message" id="link-error">{urlError}</span>
+            <span className="error__message" id="link-error">
+              {urlError}
+            </span>
           </div>
           <button
-            className={`addcard__save-button ${!isValid ? "error__button" : ""}`}
+            className={`addcard__save-button ${
+              !isValid ? "error__button" : ""
+            }`}
             type="submit"
             disabled={!isValid}
           >

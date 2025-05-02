@@ -13,7 +13,7 @@ function EditAvatar({ isOpen, onClose }) {
     if (isOpen && inputRef.current) {
       inputRef.current.value = "";
       setIsValid(false);
-      setErrorMessage(""); 
+      setErrorMessage("");
     }
   }, [isOpen]);
 
@@ -36,7 +36,7 @@ function EditAvatar({ isOpen, onClose }) {
 
     handleUpdateAvatar(avatarLink)
       .then(() => {
-        onClose(); 
+        onClose();
       })
       .catch((err) => console.error("Erro ao atualizar avatar:", err));
   }
@@ -56,7 +56,9 @@ function EditAvatar({ isOpen, onClose }) {
           />
         </button>
         <div className="popupprofilepicture__content">
-          <h5 className="popupprofilepicture__title">Alterar a foto do perfil</h5>
+          <h5 className="popupprofilepicture__title">
+            Alterar a foto do perfil
+          </h5>
           <form
             id="popupprofilepicture-form"
             className="popupprofilepicture__form"
@@ -74,12 +76,13 @@ function EditAvatar({ isOpen, onClose }) {
                 onChange={handleChange}
               />
               <span className="error__message" id="local-error">
-              {errorMessage}
+                {errorMessage}
               </span>
-              
             </div>
             <button
-              className={`popupprofilepicture__save-button ${!isValid ? "error__button" : ""}`}
+              className={`popupprofilepicture__save-button ${
+                !isValid ? "error__button" : ""
+              }`}
               type="submit"
               disabled={!isValid}
             >

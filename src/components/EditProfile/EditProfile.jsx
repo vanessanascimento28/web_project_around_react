@@ -14,7 +14,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
   useEffect(() => {
     if (isOpen) {
-      
       setName("");
       setAbout("");
       setNameError("");
@@ -27,8 +26,14 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     const nameValid = name.length >= 2 && name.length <= 40;
     const aboutValid = about.length >= 2 && about.length <= 200;
 
-    setNameError(nameValid || name === "" ? "" : "O nome deve ter entre 2 e 40 caracteres.");
-    setAboutError(aboutValid || about === "" ? "" : "A descrição deve ter entre 2 e 200 caracteres.");
+    setNameError(
+      nameValid || name === "" ? "" : "O nome deve ter entre 2 e 40 caracteres."
+    );
+    setAboutError(
+      aboutValid || about === ""
+        ? ""
+        : "A descrição deve ter entre 2 e 200 caracteres."
+    );
 
     setIsValid(nameValid && aboutValid);
   }, [name, about]);
@@ -55,7 +60,9 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
             type="text"
             placeholder="Nome"
           />
-          <span className="error__message" id="name-error">{nameError}</span>
+          <span className="error__message" id="name-error">
+            {nameError}
+          </span>
         </div>
         <div className="popup__target">
           <input
@@ -70,7 +77,9 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
             type="text"
             placeholder="Sobre mim"
           />
-          <span className="error__message" id="about-error">{aboutError}</span>
+          <span className="error__message" id="about-error">
+            {aboutError}
+          </span>
         </div>
         <button
           className={`popup__save-button ${!isValid ? "error__button" : ""}`}
