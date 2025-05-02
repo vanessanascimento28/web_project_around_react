@@ -17,7 +17,8 @@ VITE
 Fazer a migração do projeto anterior em HTML e JAVASCRIPT para REACT.
 
 ✴️Link Github
-https://github.com/vanessanascimento28/web_project_around#
+https://github.com/vanessanascimento28/web_project_around_react
+https://github.com/vanessanascimento28/web_project_around_react.git
 
 ✴️Autor
 Feito por Vanessa Nascimento
