@@ -138,7 +138,7 @@ function Main({
             <Card
               key={card._id}
               card={card}
-              handleDeleteCard={handleOpenConfirmDelete} // ← alterado aqui
+              handleDeleteCard={handleOpenConfirmDelete}
               handleCardLike={handleCardLike}
               onCardClick={handleCardClick}
             />
@@ -150,7 +150,7 @@ function Main({
         <Popup
           onClose={handleClosePopup}
           title={popup.title}
-          customOverlayClass={popup.customOverlayClass} // ← com fallback implícito
+          customOverlayClass={popup.customOverlayClass} 
         >
           {popup.children}
         </Popup>

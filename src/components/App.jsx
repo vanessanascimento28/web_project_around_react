@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
-import ConfirmDeletePopup from "./Main/components/RemoveCard/RemoveCard";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/api";
 
@@ -12,8 +11,6 @@ function App() {
     name: "Vanessa",
     about: "Web Developer",
   });
-  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
-  const [cardToDelete, setCardToDelete] = useState(null);
 
   useEffect(() => {
     api
@@ -81,27 +78,13 @@ function App() {
       .catch((err) => console.error("Erro ao atualizar like:", err));
   }
 
-  function handleTrashClick(card) {
-    setCardToDelete(card);
-    setIsConfirmPopupOpen(true);
-  }
-
-  function handleConfirmDelete() {
-    if (!cardToDelete) return;
-
+  function handleDeleteCard(card) {
     api
-      .deleteCard(cardToDelete._id)
+      .deleteCard(card._id)
       .then(() => {
-        setCards((cards) => cards.filter((c) => c._id !== cardToDelete._id));
-        setIsConfirmPopupOpen(false);
-        setCardToDelete(null);
+        setCards((cards) => cards.filter((c) => c._id !== card._id));
       })
       .catch((err) => console.error("Erro ao deletar card:", err));
-  }
-
-  function handleCloseConfirmPopup() {
-    setIsConfirmPopupOpen(false);
-    setCardToDelete(null);
   }
 
   return (
@@ -114,16 +97,10 @@ function App() {
         <Main
           cards={cards}
           onAddPlaceSubmit={handleAddPlaceSubmit}
-          handleDeleteCard={handleTrashClick}
+          handleDeleteCard={handleDeleteCard}
           handleCardLike={handleCardLike}
           handleUpdateUserInfo={handleUpdateUserInfo}
           handleUpdateAvatar={handleUpdateAvatar}
-        />
-
-        <ConfirmDeletePopup
-          isOpen={isConfirmPopupOpen}
-          onClose={handleCloseConfirmPopup}
-          onConfirm={handleConfirmDelete}
         />
 
         <Footer />
