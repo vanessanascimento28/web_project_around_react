@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
-import EditAvatar from "../components/Main/Popup/EditAvatar/EditAvatar";
-import EditProfile from "../components/Main/Popup/EditProfile/EditProfile";
-import ConfirmDeletePopup from "../components/Main/Popup/RemoveCard/RemoveCard";
+import EditAvatar from "./Main/components/EditAvatar/EditAvatar";
+import EditProfile from "./Main/components/EditProfile/EditProfile";
+import ConfirmDeletePopup from "./Main/components/RemoveCard/RemoveCard";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/api";
 

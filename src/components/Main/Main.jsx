@@ -4,8 +4,8 @@ import editIcon from "../../images/IconeCanetaEditor.svg";
 import buttonIcon from "../../images/IconeCanetaVector.svg";
 import addButton from "../../images/IconeAddButton.svg";
 import Card from "./components/Card/Card";
-import NewCard from "./Popup/NewCard/NewCard";
-import ImagePopup from "./Popup/ImagePopup/ImagePopup";
+import NewCard from "./components/NewCard/NewCard";
+import ImagePopup from "./components/ImagePopup/ImagePopup";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Main({
