@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import closeIcon from "../../../../../images/CloseIcon.svg";
+import closeIcon from "../../../../images/CloseIcon.svg";
 
 function NewCard({ onAddPlaceSubmit, isOpen, onClose }) {
   const [title, setTitle] = useState("");

@@ -1,6 +1,6 @@
 import { useRef, useContext, useEffect, useState } from "react";
-import closeIcon from "../../../../../images/CloseIcon.svg";
-import CurrentUserContext from "../../../../../contexts/CurrentUserContext";
+import closeIcon from "../../../../images/CloseIcon.svg";
+import CurrentUserContext from "../../../../contexts/CurrentUserContext";
 
 function EditAvatar({ isOpen, onClose }) {
   const { handleUpdateAvatar } = useContext(CurrentUserContext);
