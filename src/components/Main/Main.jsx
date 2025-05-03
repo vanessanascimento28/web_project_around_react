@@ -11,11 +11,8 @@ import Popup from "../Main/components/Popup/Popup";
 
 function Main({
   handleEditUserPopup,
-  handleDeleteCard,
-  handleOpenAddCard,
-  handleCloseAddCard,
-  isAddCardOpen,
   handleOpenEditAvatar,
+  handleDeleteCard,
   handleCardLike,
   cards,
   onAddPlaceSubmit,
@@ -23,14 +20,34 @@ function Main({
   const { currentUser } = useContext(CurrentUserContext);
   const hasCards = cards && cards.length > 0;
 
+  const [popup, setPopup] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
+
+  const newCardPopup = {
+    title: "Novo Lugar",
+    children: (
+      <NewCard
+        onClose={handleClosePopup}
+        onAddPlaceSubmit={onAddPlaceSubmit}
+      />
+    ),
+  };
+
+  function handleOpenPopup(popupContent) {
+    setPopup(popupContent);
+  }
+
+  function handleClosePopup() {
+    setPopup(null);
+    setSelectedCard(null);
+  }
 
   function handleCardClick(card) {
     setSelectedCard(card);
-  }
-
-  function handleCloseImagePopup() {
-    setSelectedCard(null);
+    handleOpenPopup({
+      title: card.name,
+      children: <ImagePopup card={card} onClose={handleClosePopup} />,
+    });
   }
 
   return (
@@ -63,18 +80,16 @@ function Main({
           </div>
           <p className="content__text-description">{currentUser.about}</p>
         </div>
-        <button className="content__addbutton" onClick={handleOpenAddCard}>
+        <button
+          className="content__addbutton"
+          onClick={() => handleOpenPopup(newCardPopup)}
+        >
           <img
             className="content__addbutton-icon"
             src={addButton}
             alt="sinal de mais"
           />
         </button>
-        <NewCard
-          isOpen={isAddCardOpen}
-          onClose={handleCloseAddCard}
-          onAddPlaceSubmit={onAddPlaceSubmit}
-        />
       </div>
 
       {hasCards && (
@@ -91,7 +106,11 @@ function Main({
         </ul>
       )}
 
-      <ImagePopup card={selectedCard} onClose={handleCloseImagePopup} />
+      {popup && (
+        <Popup onClose={handleClosePopup} title={popup.title}>
+          {popup.children}
+        </Popup>
+      )}
     </main>
   );
 }

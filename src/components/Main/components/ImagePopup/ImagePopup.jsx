@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import closeIcon from "../../../../images/CloseIcon.svg";
 
 function ImagePopup({ card, onClose }) {
-  const isOpen = Boolean(card);
-
   useEffect(() => {
     function handleEscClose(e) {
       if (e.key === "Escape") {
@@ -11,21 +9,19 @@ function ImagePopup({ card, onClose }) {
       }
     }
 
-    if (isOpen) {
+    if (card) {
       document.addEventListener("keydown", handleEscClose);
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscClose);
     };
-  }, [isOpen, onClose]);
+  }, [card, onClose]);
+
+  if (!card) return null;
 
   return (
-    <div
-      className={`imagepopup ${isOpen ? "imagepopup_opened" : ""}`}
-      role="dialog"
-      aria-hidden={!isOpen}
-    >
+    <div className="imagepopup imagepopup_opened" role="dialog">
       <div className="imagepopup__overlay">
         <button
           className="imagepopup__close-button"
@@ -38,16 +34,12 @@ function ImagePopup({ card, onClose }) {
             alt="ícone de fechar"
           />
         </button>
-        {card && (
-          <>
-            <img
-              className="imagepopup__image"
-              src={card.link}
-              alt={card.name || "Imagem ampliada"}
-            />
-            <p className="imagepopup__title">{card.name}</p>
-          </>
-        )}
+        <img
+          className="imagepopup__image"
+          src={card.link}
+          alt={card.name || "Imagem ampliada"}
+        />
+        <p className="imagepopup__title">{card.name}</p>
       </div>
     </div>
   );

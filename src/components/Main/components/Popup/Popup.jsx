@@ -1,8 +1,8 @@
 import closeIcon from "../../../../images/CloseIcon.svg";
 
-function Popup({ title, isOpen, onClose, children, customOverlayClass = "" }) {
+function Popup({ title, onClose, children, customOverlayClass = "" }) {
   return (
-    <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
+    <div className="popup popup_opened">
       <div className={`popup__overlay ${customOverlayClass}`}>
         <div className="popup__content">
           <button
