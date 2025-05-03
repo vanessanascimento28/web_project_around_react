@@ -7,6 +7,7 @@ import Card from "./components/Card/Card";
 import NewCard from "./components/NewCard/NewCard";
 import ImagePopup from "./components/ImagePopup/ImagePopup";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import Popup from "../Main/components/Popup/Popup";
 
 function Main({
   handleEditUserPopup,
