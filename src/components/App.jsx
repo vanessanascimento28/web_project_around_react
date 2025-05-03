@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
-import EditAvatar from "./Main/components/EditAvatar/EditAvatar";
-import EditProfile from "./Main/components/EditProfile/EditProfile";
 import ConfirmDeletePopup from "./Main/components/RemoveCard/RemoveCard";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/api";
@@ -14,9 +12,6 @@ function App() {
     name: "Vanessa",
     about: "Web Developer",
   });
-  const [isAddCardOpen, setIsAddCardOpen] = useState(false);
-  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
-  const [isEditAvatarOpen, setIsEditAvatarOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
 
@@ -38,18 +33,6 @@ function App() {
       .catch((err) => console.error("Erro ao buscar usuário:", err));
   }, []);
 
-  function handleOpenAddCard() {
-    setIsAddCardOpen(true);
-  }
-
-  function handleCloseAddCard() {
-    setIsAddCardOpen(false);
-  }
-
-  function handleEditUserPopup() {
-    setIsEditProfileOpen((prev) => !prev);
-  }
-
   function handleUpdateUserInfo(updatedUser) {
     api
       .updateUser({
@@ -58,7 +41,6 @@ function App() {
       })
       .then((newUserData) => {
         setCurrentUser(newUserData);
-        setIsEditProfileOpen(false);
       })
       .catch((err) => console.error("Erro ao atualizar usuário:", err));
   }
@@ -68,17 +50,8 @@ function App() {
       .createCard(cardData)
       .then((newCard) => {
         setCards([newCard, ...cards]);
-        setIsAddCardOpen(false);
       })
       .catch((err) => console.error("Erro ao adicionar novo cartão:", err));
-  }
-
-  function handleOpenEditAvatar() {
-    setIsEditAvatarOpen(true);
-  }
-
-  function handleCloseEditAvatar() {
-    setIsEditAvatarOpen(false);
   }
 
   function handleUpdateAvatar(avatarUrl) {
@@ -86,7 +59,6 @@ function App() {
       .setUserAvatar(avatarUrl)
       .then((updatedUser) => {
         setCurrentUser(updatedUser);
-        setIsEditAvatarOpen(false);
       })
       .catch((err) => console.error("Erro ao atualizar avatar:", err));
   }
@@ -98,15 +70,13 @@ function App() {
 
     request
       .then((updatedCard) => {
-        console.log("Resposta da API ao curtir/descurtir:", updatedCard);
-
         if (!updatedCard) {
           throw new Error("Resposta inválida da API ao atualizar curtida.");
         }
 
-    setCards((prev)=>
-    prev.map((c) => (c._id === card._id ? updatedCard : c))
-    );
+        setCards((prev) =>
+          prev.map((c) => (c._id === card._id ? updatedCard : c))
+        );
       })
       .catch((err) => console.error("Erro ao atualizar like:", err));
   }
@@ -117,6 +87,8 @@ function App() {
   }
 
   function handleConfirmDelete() {
+    if (!cardToDelete) return;
+
     api
       .deleteCard(cardToDelete._id)
       .then(() => {
@@ -140,24 +112,13 @@ function App() {
         <Header />
 
         <Main
-          handleEditUserPopup={handleEditUserPopup}
-          handleOpenAddCard={handleOpenAddCard}
-          handleCloseAddCard={handleCloseAddCard}
-          isAddCardOpen={isAddCardOpen}
-          handleOpenEditAvatar={handleOpenEditAvatar}
-          handleCardLike={handleCardLike}
-          handleDeleteCard={handleTrashClick}
           cards={cards}
           onAddPlaceSubmit={handleAddPlaceSubmit}
+          handleDeleteCard={handleTrashClick}
+          handleCardLike={handleCardLike}
+          handleUpdateUserInfo={handleUpdateUserInfo}
+          handleUpdateAvatar={handleUpdateAvatar}
         />
-
-        <EditProfile
-          isOpen={isEditProfileOpen}
-          onClose={handleEditUserPopup}
-          onUpdateUser={handleUpdateUserInfo}
-        />
-
-        <EditAvatar isOpen={isEditAvatarOpen} onClose={handleCloseEditAvatar} />
 
         <ConfirmDeletePopup
           isOpen={isConfirmPopupOpen}

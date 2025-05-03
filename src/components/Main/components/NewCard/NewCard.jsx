@@ -13,8 +13,8 @@ function NewCard({ onAddPlaceSubmit, onClose }) {
     setTitleError("");
     setUrlError("");
     setIsValid(false);
-  }, [onClose]); // ou useEffect(() => {...}, []) se quiser resetar só na montagem
-
+  }, [onClose]);
+  
   useEffect(() => {
     const titleValid = title.length >= 2 && title.length <= 30;
     const urlValid = /^https?:\/\/\S+\.\S+/.test(url);
