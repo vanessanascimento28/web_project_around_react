@@ -1,4 +1,4 @@
-import Popup from "../Popup";
+import Popup from "../../Popup";
 
 function ConfirmDeletePopup({ isOpen, onClose, onConfirm }) {
   function handleSubmit(event) {
