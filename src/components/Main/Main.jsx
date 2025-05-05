@@ -45,7 +45,7 @@ function Main({
 
   function handleOpenEditProfile() {
     handleOpenPopup({
-      title: "Editar Perfil",
+      customOverlayClass:"popup__overlay",
       children: (
         <EditProfile
           onClose={handleClosePopup}
