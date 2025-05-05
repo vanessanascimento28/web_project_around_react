@@ -42,6 +42,7 @@ function NewCard({ onAddPlaceSubmit, onClose }) {
     };
 
     onAddPlaceSubmit(newCard);
+    onClose();
   }
 
   return (
