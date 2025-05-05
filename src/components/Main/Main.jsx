@@ -57,7 +57,8 @@ function Main({
 
   function handleOpenEditAvatar() {
     handleOpenPopup({
-      title: "Editar Avatar",
+    
+      customOverlayClass: "popupprofilepicture__overlay",
       children: (
         <EditAvatar
           onClose={handleClosePopup}
